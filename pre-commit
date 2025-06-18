@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Pre-commit hook: Check if each top-level directory has a README file
+
+echo "[HOOK] Checking for README.md in all top-level directories..."
+
+missing_readme=0
+
+for dir in */ ; do
+    # Skip .git directory and hidden folders
+    [[ "$dir" == ".git/" ]] && continue
+    [[ "$dir" == "."* ]] && continue
+
+    if [ ! -f "${dir}README.md" ]; then
+        echo "❌ Missing README.md in $dir"
+        missing_readme=1
+    fi
+done
+
+if [ $missing_readme -eq 1 ]; then
+    echo "[ABORT] Commit blocked: Add README.md files to all directories."
+    exit 1
+fi
+
+echo "[OK] All directories have README.md files."

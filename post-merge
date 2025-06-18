@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Post-merge hook: Log merge to merges.log when merging into main
+
+branch=$(git symbolic-ref --short HEAD)
+
+if [ "$branch" = "main" ]; then
+    echo "[MERGE] Merged into main at $(date)" >> merges.log
+    echo "[HOOK] Merge into main logged in merges.log"
+fi
